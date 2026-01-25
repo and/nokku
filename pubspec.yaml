@@ -1,0 +1,54 @@
+name: safe_gallery
+description: A secure photo and video presentation app with device locking capabilities
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management
+  provider: ^6.1.0
+
+  # Local storage
+  shared_preferences: ^2.2.2
+  path_provider: ^2.1.1
+  path: ^1.8.3
+  sqflite: ^2.3.0
+
+  # Photo access
+  photo_manager: ^3.0.0
+  photo_manager_image_provider: ^2.0.0
+  image_picker: ^1.0.4
+
+  # Video playback
+  video_player: ^2.8.1
+
+  # Image caching and optimization
+  cached_network_image: ^3.3.0
+  flutter_cache_manager: ^3.3.1
+
+  # Platform integration
+  # sharing_intent: ^1.0.1
+
+  # UI components
+  cupertino_icons: ^1.0.6
+
+  # Utilities
+  uuid: ^4.2.1
+  intl: ^0.18.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Assets would be added here if needed
+  # assets:
+  #   - images/
