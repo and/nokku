@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Safe Gallery</string>
+	<string>Nokku temp gallery</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -50,9 +50,9 @@
 
 	<!-- Photo Library Permissions -->
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Safe Gallery needs access to your photos to create and display collections.</string>
+	<string>Nokku needs access to your photos to create and display collections.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Safe Gallery needs permission to save photos to your library.</string>
+	<string>Nokku needs permission to save photos to your library.</string>
 
 	<!-- Share Extension Support -->
 	<key>CFBundleDocumentTypes</key>

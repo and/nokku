@@ -17,9 +17,12 @@ class PhotoService {
 
   Future<List<AssetPathEntity>> getAlbums() async {
     final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList(
-      type: RequestType.image,
+      type: RequestType.common, // Get both images and videos
       filterOption: FilterOptionGroup(
         imageOption: const FilterOption(
+          sizeConstraint: SizeConstraint(ignoreSize: true),
+        ),
+        videoOption: const FilterOption(
           sizeConstraint: SizeConstraint(ignoreSize: true),
         ),
       ),
@@ -52,12 +55,19 @@ class PhotoService {
       return thumbFile;
     });
 
+    // Determine media type from asset type
+    MediaType mediaType = MediaType.image;
+    if (asset.type == AssetType.video) {
+      mediaType = MediaType.video;
+    }
+
     return PhotoItem(
       id: _uuid.v4(),
       path: file.path,
       thumbnailPath: thumbFile?.path,
       addedAt: DateTime.now(),
       order: order,
+      mediaType: mediaType,
     );
   }
 

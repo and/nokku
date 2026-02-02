@@ -136,7 +136,7 @@ class _SafeGalleryAppState extends State<SafeGalleryApp> {
 
     if (Platform.isIOS) {
       return CupertinoApp(
-        title: 'Safe Gallery',
+        title: 'Nokku temp gallery',
         theme: CupertinoThemeData(
           brightness: brightness,
           primaryColor: CupertinoColors.activeBlue,
@@ -146,7 +146,7 @@ class _SafeGalleryAppState extends State<SafeGalleryApp> {
       );
     } else {
       return MaterialApp(
-        title: 'Safe Gallery',
+        title: 'Nokku temp gallery',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.blue,

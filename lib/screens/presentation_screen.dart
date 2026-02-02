@@ -49,6 +49,39 @@ class _PresentationScreenState extends State<PresentationScreen> with WidgetsBin
 
     // Hide system UI
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+
+    // Precache images for smoother transitions
+    _precacheAdjacentImages();
+  }
+
+  void _precacheAdjacentImages() {
+    // Precache current and adjacent images
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      final photos = widget.collection.photos;
+      if (photos.isEmpty) return;
+
+      // Precache current image
+      _precacheImageIfNeeded(_currentIndex);
+
+      // Precache next image
+      final nextIndex = (_currentIndex + 1) % photos.length;
+      _precacheImageIfNeeded(nextIndex);
+
+      // Precache previous image
+      final prevIndex = (_currentIndex - 1 + photos.length) % photos.length;
+      _precacheImageIfNeeded(prevIndex);
+    });
+  }
+
+  void _precacheImageIfNeeded(int index) {
+    if (!mounted) return;
+
+    final photo = widget.collection.photos[index];
+    if (!photo.isVideo) {
+      precacheImage(FileImage(File(photo.path)), context);
+    }
   }
 
   @override
@@ -312,6 +345,9 @@ class _PresentationScreenState extends State<PresentationScreen> with WidgetsBin
                     _currentIndex = index % widget.collection.photos.length;
                   });
                   _resetAutoLockTimer();
+
+                  // Precache adjacent images after page change
+                  _precacheAdjacentImages();
                 },
                 itemCount: null, // Infinite scroll
                 itemBuilder: (context, index) {
@@ -339,15 +375,7 @@ class _PresentationScreenState extends State<PresentationScreen> with WidgetsBin
                               child: Image.file(
                                 File(photo.path),
                                 fit: BoxFit.contain,
-                                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                                  if (wasSynchronouslyLoaded) return child;
-                                  return AnimatedOpacity(
-                                    opacity: frame == null ? 0 : 1,
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.easeOut,
-                                    child: child,
-                                  );
-                                },
+                                gaplessPlayback: true, // Prevents flicker during transitions
                                 errorBuilder: (context, error, stackTrace) {
                                   return const Center(
                                     child: Icon(Icons.error, color: Colors.white, size: 48),

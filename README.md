@@ -1,4 +1,4 @@
-# Safe Gallery
+# Nokku temp gallery
 
 A cross-platform (iOS & Android) Flutter app for creating curated photo galleries with secure presentation mode. When presenting photos, viewers see only selected photos and cannot exit without locking the device.
 
@@ -8,7 +8,7 @@ A cross-platform (iOS & Android) Flutter app for creating curated photo gallerie
 
 - **Photo Collections**: Create unlimited named collections with unlimited photos
 - **Multi-source Import**: Add photos from local gallery, iCloud, Google Photos, or any source
-- **Share Sheet Integration**: Share photos directly from any app to Safe Gallery
+- **Share Sheet Integration**: Share photos directly from any app to Nokku temp gallery
 - **Secure Presentation Mode**: Full-screen, immersive photo viewing with device lock on exit
 - **Native Feel**: Platform-specific UI (iOS Photos style / Android Gallery style)
 
@@ -111,7 +111,7 @@ A cross-platform (iOS & Android) Flutter app for creating curated photo gallerie
 
 ### Creating a Collection
 
-1. Open Safe Gallery
+1. Open Nokku temp gallery
 2. Tap the "+" button (Android) or "Create Collection" (iOS)
 3. Enter a collection name
 4. Select photos from your gallery
@@ -129,7 +129,7 @@ A cross-platform (iOS & Android) Flutter app for creating curated photo gallerie
 
 1. Open any app with photos (Gallery, WhatsApp, etc.)
 2. Select photos and tap "Share"
-3. Choose "Safe Gallery"
+3. Choose "Nokku temp gallery"
 4. Photos open immediately in presentation mode
 
 ### Managing Collections

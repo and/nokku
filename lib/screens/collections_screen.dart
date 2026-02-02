@@ -42,7 +42,7 @@ class _AndroidCollectionsScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Safe Gallery'),
+          title: const Text('Nokku temp gallery'),
           automaticallyImplyLeading: false, // Remove back button since this is the main screen
           actions: [
             IconButton(
@@ -75,7 +75,7 @@ class _AndroidCollectionsScreen extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Exit App'),
-        content: const Text('This will lock your device and exit Safe Gallery. Continue?'),
+        content: const Text('This will lock your device and exit Nokku temp gallery. Continue?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
@@ -285,7 +285,7 @@ class _IOSCollectionsScreen extends StatelessWidget {
       },
       child: CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
-          middle: const Text('Safe Gallery'),
+          middle: const Text('Nokku temp gallery'),
           automaticallyImplyLeading: false, // Remove back button since this is the main screen
           leading: CupertinoButton(
             padding: EdgeInsets.zero,
@@ -319,7 +319,7 @@ class _IOSCollectionsScreen extends StatelessWidget {
       context: context,
       builder: (context) => CupertinoAlertDialog(
         title: const Text('Exit App'),
-        content: const Text('This will lock your device and exit Safe Gallery. Continue?'),
+        content: const Text('This will lock your device and exit Nokku temp gallery. Continue?'),
         actions: [
           CupertinoDialogAction(
             child: const Text('Cancel'),

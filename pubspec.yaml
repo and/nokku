@@ -1,4 +1,4 @@
-name: safe_gallery
+name: nokku
 description: A secure photo and video presentation app with device locking capabilities
 publish_to: 'none'
 version: 1.0.0+1

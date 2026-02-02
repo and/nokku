@@ -22,8 +22,9 @@ class DatabaseService {
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 2, // Incremented version for migration
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -45,6 +46,7 @@ class DatabaseService {
         thumbnailPath TEXT,
         addedAt TEXT NOT NULL,
         photoOrder INTEGER NOT NULL,
+        mediaType TEXT DEFAULT 'MediaType.image',
         FOREIGN KEY (collectionId) REFERENCES collections (id) ON DELETE CASCADE
       )
     ''');
@@ -52,6 +54,32 @@ class DatabaseService {
     await db.execute('''
       CREATE INDEX idx_photos_collection ON photos(collectionId)
     ''');
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      // Add mediaType column to existing photos table
+      await db.execute('''
+        ALTER TABLE photos ADD COLUMN mediaType TEXT DEFAULT 'MediaType.image'
+      ''');
+
+      // Update existing records to detect videos by file extension
+      final photos = await db.query('photos');
+      for (final photo in photos) {
+        final path = photo['path'] as String;
+        final extension = path.toLowerCase().split('.').last;
+        const videoExtensions = ['mp4', 'mov', 'avi', 'mkv', 'wmv', 'flv', '3gp', 'webm', 'm4v', '3gpp', 'ts', 'mts'];
+
+        if (videoExtensions.contains(extension)) {
+          await db.update(
+            'photos',
+            {'mediaType': 'MediaType.video'},
+            where: 'id = ?',
+            whereArgs: [photo['id']],
+          );
+        }
+      }
+    }
   }
 
   // Collection operations
@@ -127,6 +155,7 @@ class DatabaseService {
         'thumbnailPath': map['thumbnailPath'],
         'addedAt': map['addedAt'],
         'order': map['photoOrder'],
+        'mediaType': map['mediaType'],
       });
     }).toList();
   }
@@ -140,6 +169,7 @@ class DatabaseService {
       'thumbnailPath': photo.thumbnailPath,
       'addedAt': photo.addedAt.toIso8601String(),
       'photoOrder': photo.order,
+      'mediaType': photo.mediaType.toString(),
     });
   }
 
