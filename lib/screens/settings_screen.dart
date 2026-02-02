@@ -2,9 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../providers/app_provider.dart';
 import '../models/app_settings.dart';
 import '../services/lock_service.dart';
+import '../services/update_service.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -17,8 +19,51 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-class _AndroidSettingsScreen extends StatelessWidget {
+class _AndroidSettingsScreen extends StatefulWidget {
   const _AndroidSettingsScreen();
+
+  @override
+  State<_AndroidSettingsScreen> createState() => _AndroidSettingsScreenState();
+}
+
+class _AndroidSettingsScreenState extends State<_AndroidSettingsScreen> {
+  String _version = 'Loading...';
+  bool _checkingForUpdates = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      _version = '${packageInfo.version} (${packageInfo.buildNumber})';
+    });
+  }
+
+  Future<void> _checkForUpdates() async {
+    setState(() {
+      _checkingForUpdates = true;
+    });
+
+    final updateChecked = await UpdateService().checkForUpdate();
+
+    setState(() {
+      _checkingForUpdates = false;
+    });
+
+    if (mounted && !updateChecked) {
+      // If no update was found or check failed, show a message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('You are using the latest version'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -209,8 +254,21 @@ class _AndroidSettingsScreen extends StatelessWidget {
           _buildSectionHeader(context, 'About'),
           ListTile(
             title: const Text('Version'),
-            trailing: const Text('1.0.0'),
+            trailing: Text(_version),
           ),
+          if (Platform.isAndroid)
+            ListTile(
+              title: const Text('Check for Updates'),
+              subtitle: const Text('Check for new app versions'),
+              trailing: _checkingForUpdates
+                  ? const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.system_update),
+              onTap: _checkingForUpdates ? null : _checkForUpdates,
+            ),
         ],
       ),
     );
@@ -230,8 +288,28 @@ class _AndroidSettingsScreen extends StatelessWidget {
   }
 }
 
-class _IOSSettingsScreen extends StatelessWidget {
+class _IOSSettingsScreen extends StatefulWidget {
   const _IOSSettingsScreen();
+
+  @override
+  State<_IOSSettingsScreen> createState() => _IOSSettingsScreenState();
+}
+
+class _IOSSettingsScreenState extends State<_IOSSettingsScreen> {
+  String _version = 'Loading...';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      _version = '${packageInfo.version} (${packageInfo.buildNumber})';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -369,9 +447,9 @@ class _IOSSettingsScreen extends StatelessWidget {
             CupertinoListSection.insetGrouped(
               margin: EdgeInsets.zero,
               children: [
-                const CupertinoListTile(
-                  title: Text('Version'),
-                  trailing: Text('1.0.0'),
+                CupertinoListTile(
+                  title: const Text('Version'),
+                  trailing: Text(_version),
                 ),
               ],
             ),

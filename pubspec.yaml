@@ -1,7 +1,7 @@
 name: nokku
 description: A secure photo and video presentation app with device locking capabilities
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -40,6 +40,10 @@ dependencies:
   # Utilities
   uuid: ^4.2.1
   intl: ^0.18.1
+
+  # In-app updates
+  in_app_update: ^4.2.3
+  package_info_plus: ^9.0.0
 
 dev_dependencies:
   flutter_test:

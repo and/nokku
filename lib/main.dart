@@ -10,6 +10,7 @@ import 'models/collection.dart';
 import 'models/photo_item.dart';
 import 'models/app_settings.dart';
 import 'services/intent_service.dart';
+import 'services/update_service.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +46,13 @@ class _SafeGalleryAppState extends State<SafeGalleryApp> {
   void initState() {
     super.initState();
     _handleSharedIntents();
+    _checkForUpdates();
+  }
+
+  void _checkForUpdates() async {
+    // Check for app updates after a short delay to avoid blocking startup
+    await Future.delayed(const Duration(seconds: 2));
+    await UpdateService().checkForUpdate();
   }
 
   void _handleSharedIntents() async {
