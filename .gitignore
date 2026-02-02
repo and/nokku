@@ -95,3 +95,5 @@ app.*.map.json
 !**/ios/**/default.mode2v3
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
+android/fastlane/keys/
+google-play-api.json

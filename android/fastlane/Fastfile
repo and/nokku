@@ -1,0 +1,87 @@
+# Fastfile for Nokku temp gallery
+# This file contains the fastlane.tools configuration
+
+default_platform(:android)
+
+platform :android do
+  desc "Deploy a new version to the Google Play Store"
+  lane :deploy do
+    # Build the release bundle
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      project_dir: "android/"
+    )
+
+    # Upload to Google Play Store
+    upload_to_play_store(
+      track: 'production',
+      aab: '../build/app/outputs/bundle/release/app-release.aab',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Deploy a new version to internal testing track"
+  lane :internal do
+    # Build the release bundle
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      project_dir: "android/"
+    )
+
+    # Upload to internal testing
+    upload_to_play_store(
+      track: 'internal',
+      aab: '../build/app/outputs/bundle/release/app-release.aab',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Deploy a new version to beta testing track"
+  lane :beta do
+    # Build the release bundle
+    gradle(
+      task: "bundle",
+      build_type: "Release",
+      project_dir: "android/"
+    )
+
+    # Upload to beta
+    upload_to_play_store(
+      track: 'beta',
+      aab: '../build/app/outputs/bundle/release/app-release.aab',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Upload existing bundle to Play Store production"
+  lane :upload_bundle do
+    upload_to_play_store(
+      track: 'production',
+      aab: '../build/app/outputs/bundle/release/app-release.aab',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "Promote internal track to production"
+  lane :promote_to_production do
+    upload_to_play_store(
+      track: 'internal',
+      track_promote_to: 'production',
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+end
