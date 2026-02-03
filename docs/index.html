@@ -1,0 +1,1170 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Nokku - Safe Gallery App</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: "Gowun Batang", "Nanum Myeongjo", Georgia, serif;
+                background: linear-gradient(
+                    180deg,
+                    #f7f9fb 0%,
+                    #f3f6f9 50%,
+                    #eff3f7 100%
+                );
+                color: #3a4555;
+                line-height: 2;
+                min-height: 100vh;
+                font-size: 19px;
+            }
+
+            .container {
+                max-width: 700px;
+                margin: 0 auto;
+                padding: 2rem;
+            }
+
+            /* Hero Section */
+            .hero {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                padding: 3rem 2rem 2rem;
+                position: relative;
+            }
+
+            .phone-graphic {
+                width: 180px;
+                height: auto;
+                margin-bottom: 2rem;
+            }
+
+            .phone-graphic svg {
+                width: 100%;
+                height: auto;
+                filter: drop-shadow(0 10px 30px rgba(70, 90, 120, 0.15));
+            }
+
+            /* Animation: Hide all scenes initially, then show in sequence */
+            .scene {
+                opacity: 0;
+            }
+
+            /* Scene 1: Home screen - 0s to 2s */
+            .scene-home {
+                animation: fadeScene 2s ease-in-out 0s forwards;
+            }
+            .tap-ring {
+                opacity: 0;
+                transform-origin: 70px 108px;
+                animation: tapPulse 0.8s ease-out 1s forwards;
+            }
+
+            /* Scene 2: Gallery - 2s to 7s */
+            .scene-gallery {
+                animation: fadeScene 5s ease-in-out 2s forwards;
+            }
+            .check-1 {
+                opacity: 0;
+                transform-origin: 44px 71px;
+                animation: popIn 0.3s ease-out 3s forwards;
+            }
+            .check-2 {
+                opacity: 0;
+                transform-origin: 81px 108px;
+                animation: popIn 0.3s ease-out 3.6s forwards;
+            }
+            .check-3 {
+                opacity: 0;
+                transform-origin: 44px 145px;
+                animation: popIn 0.3s ease-out 4.2s forwards;
+            }
+            .share-btn {
+                opacity: 0;
+                animation: fadeIn 0.3s ease-out 4.8s forwards;
+            }
+            .tap-ring-share {
+                opacity: 0;
+                transform-origin: 104px 193px;
+                animation: tapPulse 0.8s ease-out 5.5s forwards;
+            }
+
+            /* Scene 3: Share menu - 7s to 10s */
+            .scene-share {
+                animation: fadeScene 3s ease-in-out 7s forwards;
+            }
+            .tap-ring-nokku {
+                opacity: 0;
+                transform-origin: 70px 177px;
+                animation: tapPulse 0.8s ease-out 8.5s forwards;
+            }
+
+            /* Scene 4: Nokku presentation - 10s onwards, stays visible */
+            .scene-nokku {
+                animation: fadeSceneStay 2s ease-in-out 10s forwards;
+            }
+            .photos-container {
+                animation: swipePhotos 6s ease-in-out 11s forwards;
+            }
+            .photo-counter {
+                opacity: 0;
+            }
+            .counter-1 {
+                animation: showCounter1 6s ease-in-out 11s forwards;
+            }
+            .counter-2 {
+                animation: showCounter2 6s ease-in-out 11s forwards;
+            }
+            .counter-3 {
+                animation: showCounter3 6s ease-in-out 11s forwards;
+            }
+            .arrow-left,
+            .arrow-right {
+                animation: arrowPulse 1.5s ease-in-out 10.5s 4;
+            }
+
+            @keyframes fadeScene {
+                0% {
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 1;
+                }
+                90% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                }
+            }
+
+            @keyframes fadeSceneStay {
+                0% {
+                    opacity: 0;
+                }
+                100% {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes fadeIn {
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes popIn {
+                0% {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+                60% {
+                    opacity: 1;
+                    transform: scale(1.3);
+                }
+                100% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+
+            @keyframes tapPulse {
+                0% {
+                    opacity: 0;
+                    transform: scale(0.5);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(1.3);
+                }
+            }
+
+            @keyframes swipePhotos {
+                0%,
+                20% {
+                    transform: translateX(0);
+                }
+                33%,
+                53% {
+                    transform: translateX(-118px);
+                }
+                66%,
+                100% {
+                    transform: translateX(-236px);
+                }
+            }
+
+            @keyframes showCounter1 {
+                0%,
+                20% {
+                    opacity: 1;
+                }
+                25%,
+                100% {
+                    opacity: 0;
+                }
+            }
+            @keyframes showCounter2 {
+                0%,
+                28% {
+                    opacity: 0;
+                }
+                33%,
+                53% {
+                    opacity: 1;
+                }
+                58%,
+                100% {
+                    opacity: 0;
+                }
+            }
+            @keyframes showCounter3 {
+                0%,
+                61% {
+                    opacity: 0;
+                }
+                66%,
+                100% {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes arrowPulse {
+                0%,
+                100% {
+                    opacity: 0.3;
+                }
+                50% {
+                    opacity: 0.8;
+                }
+            }
+
+            .title-main {
+                font-size: clamp(2.5rem, 10vw, 4.5rem);
+                font-weight: 400;
+                letter-spacing: 0.3em;
+                margin-bottom: 0.5rem;
+                color: #384555;
+            }
+
+            .title-sub {
+                font-size: 1rem;
+                letter-spacing: 0.25em;
+                color: #6a9bc0;
+                margin-bottom: 1.5rem;
+            }
+
+            .tagline {
+                font-size: 1.4rem;
+                font-weight: 400;
+                color: #4a5565;
+                margin-bottom: 1rem;
+                letter-spacing: 0.08em;
+            }
+
+            .description {
+                font-size: 1.15rem;
+                color: #5a6575;
+                max-width: 420px;
+                line-height: 2;
+            }
+
+            /* Decorative elements */
+            .deco-line {
+                width: 40px;
+                height: 1px;
+                background: #c0cedb;
+                margin: 1.5rem auto;
+            }
+
+            .deco-dot {
+                width: 4px;
+                height: 4px;
+                background: #c0cedb;
+                border-radius: 50%;
+                margin: 1rem auto;
+            }
+
+            /* Section Styling */
+            section {
+                padding: 2.5rem 0;
+            }
+
+            .section-title {
+                text-align: center;
+                font-size: 1rem;
+                font-weight: 400;
+                letter-spacing: 0.3em;
+                color: #6a9bc0;
+                margin-bottom: 1.5rem;
+            }
+
+            /* Features Section */
+            .feature-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .feature {
+                padding: 1rem 0;
+                border-bottom: 1px solid #dce5ed;
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                gap: 1rem;
+            }
+
+            .feature:last-child {
+                border-bottom: none;
+            }
+
+            .feature h3 {
+                font-size: 1.2rem;
+                font-weight: 400;
+                color: #3a4555;
+                letter-spacing: 0.05em;
+            }
+
+            .feature p {
+                font-size: 1.05rem;
+                color: #5a6575;
+                text-align: right;
+                max-width: 55%;
+            }
+
+            /* More button */
+            .more-btn {
+                display: block;
+                margin: 2rem auto 0;
+                padding: 0.75rem 1.75rem;
+                background: transparent;
+                color: #6a9bc0;
+                border: 1px solid #c8d5e0;
+                font-family: "Gowun Batang", Georgia, serif;
+                font-size: 1rem;
+                letter-spacing: 0.15em;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                border-radius: 2px;
+            }
+
+            .more-btn:hover {
+                background: #f0f5f9;
+                border-color: #b0c0d0;
+            }
+
+            .optional-features {
+                display: none;
+                margin-top: 1rem;
+            }
+
+            .optional-features.show {
+                display: grid;
+            }
+
+            /* Steps */
+            .steps {
+                max-width: 450px;
+                margin: 0 auto;
+            }
+
+            .step {
+                display: flex;
+                align-items: baseline;
+                gap: 1.25rem;
+                padding: 1rem 0;
+                border-bottom: 1px solid #dce5ed;
+            }
+
+            .step:last-child {
+                border-bottom: none;
+            }
+
+            .step-number {
+                font-size: 1rem;
+                color: #9aabb8;
+                min-width: 1.5rem;
+            }
+
+            .step-content h4 {
+                font-size: 1.15rem;
+                font-weight: 400;
+                color: #3a4555;
+                margin-bottom: 0.2rem;
+            }
+
+            .step-content p {
+                font-size: 1.05rem;
+                color: #5a6575;
+            }
+
+            /* Use Cases */
+            .use-case-list {
+                list-style: none;
+                max-width: 520px;
+                margin: 0 auto;
+            }
+
+            .use-case-list li {
+                padding: 0.75rem 0;
+                color: #3a4555;
+                font-size: 1.1rem;
+                border-bottom: 1px solid #dce5ed;
+                text-align: center;
+            }
+
+            .use-case-list li:last-child {
+                border-bottom: none;
+            }
+
+            /* Download Section */
+            .download {
+                text-align: center;
+                padding-bottom: 3rem;
+            }
+
+            .download-btn {
+                display: inline-block;
+                padding: 1rem 2.5rem;
+                background: #4a5a6a;
+                color: #f7f9fb;
+                text-decoration: none;
+                font-family: "Gowun Batang", Georgia, serif;
+                font-size: 1rem;
+                letter-spacing: 0.2em;
+                transition: all 0.3s ease;
+                border-radius: 2px;
+            }
+
+            .download-btn:hover {
+                background: #3a4a5a;
+            }
+
+            .download-note {
+                margin-top: 1.5rem;
+                color: #6a7585;
+                font-size: 1rem;
+                line-height: 1.8;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 2rem;
+                color: #8a9aa8;
+                font-size: 0.9rem;
+                letter-spacing: 0.15em;
+            }
+
+            /* Responsive */
+            @media (max-width: 600px) {
+                .container {
+                    padding: 1.5rem;
+                }
+
+                .hero {
+                    min-height: 80vh;
+                    padding: 3rem 1.5rem;
+                }
+
+                .title-main {
+                    letter-spacing: 0.2em;
+                }
+
+                .feature {
+                    flex-direction: column;
+                    gap: 0.5rem;
+                    align-items: flex-start;
+                }
+
+                .feature p {
+                    text-align: left;
+                    max-width: 100%;
+                }
+
+                section {
+                    padding: 3rem 0;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Hero -->
+            <section class="hero">
+                <!-- Phone SVG Animation -->
+                <div class="phone-graphic">
+                    <svg
+                        viewBox="0 0 140 280"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <defs>
+                            <clipPath id="screenClip">
+                                <rect
+                                    x="12"
+                                    y="40"
+                                    width="116"
+                                    height="200"
+                                    rx="4"
+                                />
+                            </clipPath>
+                        </defs>
+
+                        <!-- Phone body -->
+                        <rect
+                            x="4"
+                            y="4"
+                            width="132"
+                            height="272"
+                            rx="20"
+                            fill="#f8fafb"
+                            stroke="#b0c0cc"
+                            stroke-width="2"
+                        />
+                        <!-- Screen background -->
+                        <rect
+                            x="12"
+                            y="40"
+                            width="116"
+                            height="200"
+                            rx="4"
+                            fill="#eaf0f4"
+                        />
+                        <!-- Top speaker -->
+                        <rect
+                            x="50"
+                            y="16"
+                            width="40"
+                            height="4"
+                            rx="2"
+                            fill="#c0cedb"
+                        />
+                        <!-- Camera -->
+                        <circle cx="70" cy="28" r="4" fill="#c0cedb" />
+                        <!-- Home indicator -->
+                        <rect
+                            x="50"
+                            y="252"
+                            width="40"
+                            height="4"
+                            rx="2"
+                            fill="#c0cedb"
+                        />
+
+                        <!-- Screen content (clipped) -->
+                        <g clip-path="url(#screenClip)">
+                            <!-- SCENE 1: Home screen with gallery icon -->
+                            <g class="scene scene-home">
+                                <rect
+                                    x="12"
+                                    y="40"
+                                    width="116"
+                                    height="200"
+                                    fill="#eaf0f4"
+                                />
+                                <!-- App icons row 1 -->
+                                <rect
+                                    x="22"
+                                    y="60"
+                                    width="24"
+                                    height="24"
+                                    rx="6"
+                                    fill="#d0dbe3"
+                                />
+                                <rect
+                                    x="58"
+                                    y="60"
+                                    width="24"
+                                    height="24"
+                                    rx="6"
+                                    fill="#c8d5dd"
+                                />
+                                <rect
+                                    x="94"
+                                    y="60"
+                                    width="24"
+                                    height="24"
+                                    rx="6"
+                                    fill="#ccd8e0"
+                                />
+                                <!-- App icons row 2 -->
+                                <rect
+                                    x="22"
+                                    y="96"
+                                    width="24"
+                                    height="24"
+                                    rx="6"
+                                    fill="#c5d0d8"
+                                />
+                                <!-- Gallery icon -->
+                                <rect
+                                    class="gallery-icon"
+                                    x="58"
+                                    y="96"
+                                    width="24"
+                                    height="24"
+                                    rx="6"
+                                    fill="#b0c0cc"
+                                />
+                                <rect
+                                    x="62"
+                                    y="100"
+                                    width="7"
+                                    height="7"
+                                    rx="1"
+                                    fill="#eaf0f4"
+                                />
+                                <rect
+                                    x="71"
+                                    y="100"
+                                    width="7"
+                                    height="7"
+                                    rx="1"
+                                    fill="#eaf0f4"
+                                />
+                                <rect
+                                    x="62"
+                                    y="109"
+                                    width="7"
+                                    height="7"
+                                    rx="1"
+                                    fill="#eaf0f4"
+                                />
+                                <rect
+                                    x="71"
+                                    y="109"
+                                    width="7"
+                                    height="7"
+                                    rx="1"
+                                    fill="#eaf0f4"
+                                />
+                                <rect
+                                    x="94"
+                                    y="96"
+                                    width="24"
+                                    height="24"
+                                    rx="6"
+                                    fill="#d5e0e8"
+                                />
+                                <!-- Tap indicator -->
+                                <circle
+                                    class="tap-ring"
+                                    cx="70"
+                                    cy="108"
+                                    r="16"
+                                    fill="none"
+                                    stroke="#6a9bc0"
+                                    stroke-width="2"
+                                />
+                            </g>
+
+                            <!-- SCENE 2: Gallery with photos -->
+                            <g class="scene scene-gallery">
+                                <rect
+                                    x="12"
+                                    y="40"
+                                    width="116"
+                                    height="200"
+                                    fill="#eaf0f4"
+                                />
+                                <!-- Header -->
+                                <text
+                                    x="70"
+                                    y="56"
+                                    text-anchor="middle"
+                                    font-size="9"
+                                    fill="#3a4555"
+                                    font-family="Georgia, serif"
+                                >
+                                    Gallery
+                                </text>
+                                <!-- Photos grid -->
+                                <rect
+                                    class="photo"
+                                    x="16"
+                                    y="65"
+                                    width="34"
+                                    height="34"
+                                    rx="3"
+                                    fill="#d8e2ea"
+                                />
+                                <rect
+                                    class="photo"
+                                    x="53"
+                                    y="65"
+                                    width="34"
+                                    height="34"
+                                    rx="3"
+                                    fill="#ccd8e0"
+                                />
+                                <rect
+                                    class="photo"
+                                    x="90"
+                                    y="65"
+                                    width="34"
+                                    height="34"
+                                    rx="3"
+                                    fill="#c5d0d8"
+                                />
+                                <rect
+                                    class="photo"
+                                    x="16"
+                                    y="102"
+                                    width="34"
+                                    height="34"
+                                    rx="3"
+                                    fill="#d0dbe3"
+                                />
+                                <rect
+                                    class="photo"
+                                    x="53"
+                                    y="102"
+                                    width="34"
+                                    height="34"
+                                    rx="3"
+                                    fill="#ccd8e0"
+                                />
+                                <rect
+                                    class="photo"
+                                    x="90"
+                                    y="102"
+                                    width="34"
+                                    height="34"
+                                    rx="3"
+                                    fill="#d5e0e8"
+                                />
+                                <rect
+                                    class="photo"
+                                    x="16"
+                                    y="139"
+                                    width="34"
+                                    height="34"
+                                    rx="3"
+                                    fill="#c8d5dd"
+                                />
+                                <rect
+                                    class="photo"
+                                    x="53"
+                                    y="139"
+                                    width="34"
+                                    height="34"
+                                    rx="3"
+                                    fill="#d8e2ea"
+                                />
+                                <rect
+                                    class="photo"
+                                    x="90"
+                                    y="139"
+                                    width="34"
+                                    height="34"
+                                    rx="3"
+                                    fill="#ccd8e0"
+                                />
+                                <!-- Checkmarks -->
+                                <g class="check check-1">
+                                    <circle
+                                        cx="44"
+                                        cy="71"
+                                        r="7"
+                                        fill="#6a9bc0"
+                                    />
+                                    <path
+                                        d="M41 71 L43 73 L48 68"
+                                        stroke="#f8fafb"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </g>
+                                <g class="check check-2">
+                                    <circle
+                                        cx="81"
+                                        cy="108"
+                                        r="7"
+                                        fill="#6a9bc0"
+                                    />
+                                    <path
+                                        d="M78 108 L80 110 L85 105"
+                                        stroke="#f8fafb"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </g>
+                                <g class="check check-3">
+                                    <circle
+                                        cx="44"
+                                        cy="145"
+                                        r="7"
+                                        fill="#6a9bc0"
+                                    />
+                                    <path
+                                        d="M41 145 L43 147 L48 142"
+                                        stroke="#f8fafb"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </g>
+                                <!-- Share button -->
+                                <g class="share-btn">
+                                    <rect
+                                        x="85"
+                                        y="182"
+                                        width="38"
+                                        height="22"
+                                        rx="4"
+                                        fill="#6a9bc0"
+                                    />
+                                    <text
+                                        x="104"
+                                        y="196"
+                                        text-anchor="middle"
+                                        font-size="8"
+                                        fill="#f8fafb"
+                                        font-family="Georgia, serif"
+                                    >
+                                        Share
+                                    </text>
+                                </g>
+                                <!-- Tap ring for share -->
+                                <circle
+                                    class="tap-ring-share"
+                                    cx="104"
+                                    cy="193"
+                                    r="16"
+                                    fill="none"
+                                    stroke="#6a9bc0"
+                                    stroke-width="2"
+                                />
+                            </g>
+
+                            <!-- SCENE 3: Share menu -->
+                            <g class="scene scene-share">
+                                <rect
+                                    x="12"
+                                    y="40"
+                                    width="116"
+                                    height="200"
+                                    fill="rgba(0,0,0,0.3)"
+                                />
+                                <!-- Share sheet (rounded top corners only) -->
+                                <path
+                                    d="M12 202 Q12 190 24 190 L116 190 Q128 190 128 202 L128 240 L12 240 Z"
+                                    fill="#f8fafb"
+                                />
+                                <text
+                                    x="70"
+                                    y="205"
+                                    text-anchor="middle"
+                                    font-size="7"
+                                    fill="#5a6575"
+                                    font-family="Georgia, serif"
+                                >
+                                    Share to...
+                                </text>
+                                <!-- App options -->
+                                <rect
+                                    x="24"
+                                    y="212"
+                                    width="22"
+                                    height="22"
+                                    rx="6"
+                                    fill="#d0dbe3"
+                                />
+                                <rect
+                                    x="59"
+                                    y="212"
+                                    width="22"
+                                    height="22"
+                                    rx="6"
+                                    fill="#6a9bc0"
+                                />
+                                <text
+                                    x="70"
+                                    y="238"
+                                    text-anchor="middle"
+                                    font-size="5"
+                                    fill="#5a6575"
+                                    font-family="Georgia, serif"
+                                >
+                                    Nokku
+                                </text>
+                                <rect
+                                    x="94"
+                                    y="212"
+                                    width="22"
+                                    height="22"
+                                    rx="6"
+                                    fill="#c5d0d8"
+                                />
+                                <!-- Tap on Nokku -->
+                                <circle
+                                    class="tap-ring-nokku"
+                                    cx="70"
+                                    cy="223"
+                                    r="16"
+                                    fill="none"
+                                    stroke="#6a9bc0"
+                                    stroke-width="2"
+                                />
+                            </g>
+
+                            <!-- SCENE 4: Nokku presentation view with swipe -->
+                            <g class="scene scene-nokku">
+                                <rect
+                                    x="12"
+                                    y="40"
+                                    width="116"
+                                    height="200"
+                                    fill="#15171a"
+                                />
+                                <!-- Photos container for swiping -->
+                                <g class="photos-container">
+                                    <rect
+                                        class="slide-photo photo-a"
+                                        x="22"
+                                        y="55"
+                                        width="96"
+                                        height="135"
+                                        rx="4"
+                                        fill="#d8e2ea"
+                                    />
+                                    <rect
+                                        class="slide-photo photo-b"
+                                        x="140"
+                                        y="55"
+                                        width="96"
+                                        height="135"
+                                        rx="4"
+                                        fill="#ccd8e0"
+                                    />
+                                    <rect
+                                        class="slide-photo photo-c"
+                                        x="258"
+                                        y="55"
+                                        width="96"
+                                        height="135"
+                                        rx="4"
+                                        fill="#c5d0d8"
+                                    />
+                                </g>
+                                <!-- Photo counters -->
+                                <text
+                                    class="photo-counter counter-1"
+                                    x="70"
+                                    y="210"
+                                    text-anchor="middle"
+                                    font-size="10"
+                                    fill="#888"
+                                    font-family="Georgia, serif"
+                                >
+                                    1 / 3
+                                </text>
+                                <text
+                                    class="photo-counter counter-2"
+                                    x="70"
+                                    y="210"
+                                    text-anchor="middle"
+                                    font-size="10"
+                                    fill="#888"
+                                    font-family="Georgia, serif"
+                                >
+                                    2 / 3
+                                </text>
+                                <text
+                                    class="photo-counter counter-3"
+                                    x="70"
+                                    y="210"
+                                    text-anchor="middle"
+                                    font-size="10"
+                                    fill="#888"
+                                    font-family="Georgia, serif"
+                                >
+                                    3 / 3
+                                </text>
+                                <!-- Swipe hint arrows -->
+                                <path
+                                    class="arrow-left"
+                                    d="M18 125 L12 135 L18 145"
+                                    stroke="#555"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    fill="none"
+                                />
+                                <path
+                                    class="arrow-right"
+                                    d="M122 125 L128 135 L122 145"
+                                    stroke="#555"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    fill="none"
+                                />
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+                <h1 class="title-main">NOKKU</h1>
+                <p class="tagline">Share Only What You Choose</p>
+                <p class="description">
+                    Hand your phone to someone without worry. Show only the
+                    photos you want them to see.
+                </p>
+            </section>
+
+            <!-- Use Cases -->
+            <section class="use-cases">
+                <h2 class="section-title">PERFECT FOR</h2>
+                <ul class="use-case-list">
+                    <li>Sharing vacation photos with friends</li>
+                    <li>Letting kids watch videos safely</li>
+                    <li>Showing portfolios to clients</li>
+                    <li>Family gatherings</li>
+                    <li>Any time someone asks to see your photos</li>
+                </ul>
+            </section>
+
+            <!-- Features -->
+            <section class="features">
+                <h2 class="section-title">FEATURES</h2>
+                <!-- Default features -->
+                <div class="feature-grid">
+                    <div class="feature">
+                        <h3>Quick Show</h3>
+                        <p>Select and present instantly</p>
+                    </div>
+
+                    <div class="feature">
+                        <h3>Swipe Navigation</h3>
+                        <p>Browse with simple gestures</p>
+                    </div>
+                </div>
+
+                <button class="more-btn" onclick="toggleOptionalFeatures()">
+                    more
+                </button>
+
+                <!-- Optional features -->
+                <div
+                    class="feature-grid optional-features"
+                    id="optionalFeatures"
+                >
+                    <div class="feature">
+                        <h3>Pinch to Zoom</h3>
+                        <p>Zoom in on details</p>
+                    </div>
+
+                    <div class="feature">
+                        <h3>Device Lock on Exit</h3>
+                        <p>Auto-lock when done</p>
+                    </div>
+
+                    <div class="feature">
+                        <h3>Photo Counter</h3>
+                        <p>Track your position</p>
+                    </div>
+
+                    <div class="feature">
+                        <h3>Auto Slideshow</h3>
+                        <p>Hands-free viewing</p>
+                    </div>
+
+                    <div class="feature">
+                        <h3>Auto-lock Timer</h3>
+                        <p>Lock after inactivity</p>
+                    </div>
+
+                    <div class="feature">
+                        <h3>Confirm Removal</h3>
+                        <p>Prevent accidents</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How It Works -->
+            <section class="how-it-works">
+                <h2 class="section-title">HOW IT WORKS</h2>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step-number">01</span>
+                        <div class="step-content">
+                            <h4>Tap the play button</h4>
+                            <p>Launch the photo picker</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">02</span>
+                        <div class="step-content">
+                            <h4>Select your photos</h4>
+                            <p>Choose what to show</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">03</span>
+                        <div class="step-content">
+                            <h4>Hand over your phone</h4>
+                            <p>Only selected photos visible</p>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-number">04</span>
+                        <div class="step-content">
+                            <h4>Exit locks the device</h4>
+                            <p>Secure when finished</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Download -->
+            <section class="download">
+                <h2 class="section-title">GET THE APP</h2>
+                <a href="#" class="download-btn">Download</a>
+                <p class="download-note">
+                    Android 6.0 or higher<br />
+                    iOS (coming soon)
+                </p>
+            </section>
+
+            <!-- Footer -->
+            <footer>
+                <p>NOKKU 2025</p>
+            </footer>
+        </div>
+
+        <script>
+            function toggleOptionalFeatures() {
+                const optional = document.getElementById("optionalFeatures");
+                const btn = document.querySelector(".more-btn");
+                optional.classList.toggle("show");
+                btn.textContent = optional.classList.contains("show")
+                    ? "less"
+                    : "more";
+            }
+        </script>
+    </body>
+</html>
